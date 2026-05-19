@@ -1,0 +1,340 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens (frontend.instructions.md)                            */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-shadow-ink: #05060f;
+  --color-midnight: #0a0e27;
+  --color-deep-purple: #1a0b2e;
+  --color-neon-magenta: #ff2e88;
+  --color-neon-cyan: #00f0ff;
+  --color-crt-amber: #ffb000;
+  --color-gb-green: #9bbc0f;
+  --color-phosphor: #e8f4ff;
+
+  --font-pixel: "Press Start 2P", monospace;
+  --font-pixel-jp: "DotGothic16", "Press Start 2P", monospace;
+  --font-body: "Noto Sans JP", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-terminal: "VT323", monospace;
+
+  --shadow-neon-magenta: 0 0 8px #ff2e88, 0 0 24px rgba(255, 46, 136, 0.45);
+  --shadow-neon-cyan: 0 0 8px #00f0ff, 0 0 24px rgba(0, 240, 255, 0.45);
+  --shadow-neon-amber: 0 0 8px #ffb000, 0 0 24px rgba(255, 176, 0, 0.45);
+  --shadow-neon-green: 0 0 8px #9bbc0f, 0 0 24px rgba(155, 188, 15, 0.45);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+html,
+body {
+  background-color: var(--color-shadow-ink);
+  color: var(--color-phosphor);
+  font-family: var(--font-body);
+  min-height: 100%;
+}
+
+body {
+  position: relative;
+  background:
+    radial-gradient(
+      ellipse at top,
+      var(--color-deep-purple) 0%,
+      var(--color-midnight) 45%,
+      var(--color-shadow-ink) 100%
+    );
+  background-attachment: fixed;
+}
+
+/* CRT scanlines overlay */
+.crt-lines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.18) 0px,
+    rgba(0, 0, 0, 0.18) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-neon-magenta);
+  color: var(--color-shadow-ink);
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: var(--color-neon-cyan) var(--color-midnight);
+  scrollbar-width: thin;
+}
+
+/* ------------------------------------------------------------------ */
+/* Article / Markdown content                                          */
+/* ------------------------------------------------------------------ */
+.playbook-article {
+  color: var(--color-phosphor);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.playbook-article h1,
+.playbook-article h2,
+.playbook-article h3,
+.playbook-article h4 {
+  font-family: var(--font-pixel-jp);
+  color: var(--color-neon-cyan);
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.4);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.playbook-article h2 {
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--color-neon-magenta);
+  padding-bottom: 0.5rem;
+  color: var(--color-neon-magenta);
+  text-shadow: 0 0 6px rgba(255, 46, 136, 0.4);
+}
+
+.playbook-article h3 {
+  font-size: 1.2rem;
+  color: var(--color-crt-amber);
+  text-shadow: 0 0 6px rgba(255, 176, 0, 0.4);
+}
+
+.playbook-article p {
+  margin: 1rem 0;
+}
+
+.playbook-article a {
+  color: var(--color-neon-cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.playbook-article a:hover {
+  color: var(--color-neon-magenta);
+  text-shadow: var(--shadow-neon-magenta);
+}
+
+.playbook-article strong {
+  color: var(--color-crt-amber);
+}
+
+.playbook-article ul,
+.playbook-article ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.playbook-article ul li {
+  list-style: square;
+}
+
+.playbook-article ol li {
+  list-style: decimal;
+}
+
+.playbook-article li {
+  margin: 0.35rem 0;
+}
+
+.playbook-article blockquote {
+  border-left: 2px solid var(--color-neon-cyan);
+  background: rgba(10, 14, 39, 0.6);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  color: var(--color-phosphor);
+}
+
+.playbook-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.playbook-article th,
+.playbook-article td {
+  border: 1px solid var(--color-neon-cyan);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.playbook-article th {
+  background: rgba(0, 240, 255, 0.08);
+  color: var(--color-neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.playbook-article code {
+  font-family: var(--font-mono);
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--color-neon-cyan);
+  padding: 0.1rem 0.35rem;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  font-size: 0.9em;
+}
+
+.playbook-article pre {
+  background: var(--color-midnight) !important;
+  border: 1px solid var(--color-neon-cyan);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.playbook-article pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+.playbook-article hr {
+  border: none;
+  border-top: 1px dashed var(--color-neon-magenta);
+  margin: 2rem 0;
+}
+
+/* Mermaid: pre that we will replace with SVG */
+.playbook-article pre.mermaid-source {
+  display: none;
+}
+
+.playbook-article .mermaid {
+  background: var(--color-midnight);
+  border: 1px dashed var(--color-neon-cyan);
+  padding: 1rem;
+  margin: 1.25rem 0;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.playbook-article .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Presentation mode                                                   */
+/* ------------------------------------------------------------------ */
+#presentation-mode {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--color-shadow-ink);
+  display: none;
+  grid-template-columns: 260px 1fr;
+}
+
+#presentation-mode.is-active {
+  display: grid;
+}
+
+.present-sidebar {
+  border-right: 2px solid var(--color-neon-cyan);
+  background: var(--color-midnight);
+  overflow-y: auto;
+  padding: 1.25rem 1rem;
+}
+
+.present-sidebar h2 {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: var(--color-neon-cyan);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.present-sidebar ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.present-sidebar li {
+  margin: 0.25rem 0;
+}
+
+.present-sidebar a {
+  display: block;
+  padding: 0.5rem 0.6rem;
+  color: var(--color-phosphor);
+  text-decoration: none;
+  font-size: 0.85rem;
+  border: 1px solid transparent;
+  font-family: var(--font-body);
+}
+
+.present-sidebar a:hover {
+  border-color: var(--color-neon-cyan);
+  color: var(--color-neon-cyan);
+}
+
+.present-sidebar a.is-current {
+  border: 2px solid var(--color-neon-magenta);
+  color: var(--color-neon-magenta);
+  box-shadow: var(--shadow-neon-magenta);
+  background: rgba(255, 46, 136, 0.08);
+}
+
+.present-sidebar .toc-icon {
+  margin-right: 0.4rem;
+}
+
+.present-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 4rem;
+  overflow: hidden;
+}
+
+.present-slide {
+  flex: 1;
+  overflow-y: auto;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.present-slide h2 {
+  font-family: var(--font-pixel-jp);
+  color: var(--color-neon-magenta);
+  font-size: 2rem;
+  border-bottom: 2px solid var(--color-neon-magenta);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+  text-shadow: var(--shadow-neon-magenta);
+}
+
+.present-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--color-neon-cyan);
+  color: var(--color-neon-cyan);
+  font-family: var(--font-terminal);
+  font-size: 1.25rem;
+}
+
+.present-footer .hint {
+  color: var(--color-crt-amber);
+  font-size: 1rem;
+}
