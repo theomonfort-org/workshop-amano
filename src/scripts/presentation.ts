@@ -36,15 +36,17 @@ function readToc(): TocData | null {
   }
 }
 
-// Mermaid のコードブロック (<pre><code class="language-mermaid">) を
+// Mermaid のコードブロック (<pre><code class="language-mermaid"> や
+// Astro/Shiki の <pre data-language="mermaid"><code>...</code></pre>) を
 // レンダリング可能な <div class="mermaid"> へ置換する。
 function prepareMermaid(article: HTMLElement): HTMLElement[] {
-  const blocks = article.querySelectorAll<HTMLElement>('pre > code.language-mermaid');
+  const blocks = article.querySelectorAll<HTMLPreElement>(
+    'pre[data-language="mermaid"], pre:has(> code.language-mermaid)',
+  );
   const targets: HTMLElement[] = [];
-  blocks.forEach((codeEl) => {
-    const pre = codeEl.parentElement as HTMLPreElement | null;
-    if (!pre) return;
-    const source = codeEl.textContent ?? '';
+  blocks.forEach((pre) => {
+    const codeEl = pre.querySelector('code');
+    const source = codeEl?.textContent ?? pre.textContent ?? '';
     const wrapper = document.createElement('div');
     wrapper.className = 'mermaid';
     wrapper.textContent = source;
