@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaybookTile from '../components/PlaybookTile.astro';
+
+const entries = (await getCollection('playbook')).sort((a, b) => {
+  if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+  return a.data.title.localeCompare(b.data.title, 'ja');
+});
+---
+<BaseLayout title="Playbook — GitHub Copilot Workshop">
+  <main class="mx-auto max-w-7xl px-6 py-10 sm:px-10">
+    <header class="mb-10 border-b-2 border-neon-magenta pb-6">
+      <p class="font-pixel text-[11px] uppercase tracking-[0.3em] text-neon-cyan">
+        &gt; GITHUB_COPILOT_WORKSHOP
+      </p>
+      <h1
+        class="mt-3 font-pixel-jp text-3xl text-neon-magenta sm:text-4xl"
+        style="text-shadow: 0 0 12px rgba(255,46,136,0.5);"
+      >
+        Playbook インデックス
+      </h1>
+      <p class="mt-3 max-w-3xl text-sm text-phosphor/80 sm:text-base">
+        ハンズオン教材のエントリ一覧。タイルをクリックして詳細ページを開き、
+        詳細ページで <kbd class="border border-neon-cyan px-1.5 py-0.5 font-mono text-xs text-neon-cyan">P</kbd>
+        キーを押すとプレゼンテーションモードに切り替わります。
+      </p>
+    </header>
+
+    <section
+      class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    >
+      {entries.map((entry) => <PlaybookTile entry={entry} />)}
+    </section>
+
+    <footer class="mt-12 border-t border-neon-cyan/40 pt-4 text-center font-mono text-xs text-phosphor/50">
+      {entries.length} entries loaded.
+    </footer>
+  </main>
+</BaseLayout>
