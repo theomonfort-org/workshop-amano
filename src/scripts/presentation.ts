@@ -173,7 +173,7 @@ function buildMain(): {
   indicator.className = 'indicator';
   const hint = document.createElement('span');
   hint.className = 'hint';
-  hint.textContent = '← / → 移動  ·  P or Esc で復帰';
+  hint.textContent = '← / → 移動  ·  Esc で復帰';
   footer.appendChild(indicator);
   footer.appendChild(hint);
   main.appendChild(footer);
@@ -299,9 +299,10 @@ async function init() {
     if (isTypingTarget(event.target)) return;
     const key = event.key;
     if (key === 'p' || key === 'P') {
-      event.preventDefault();
-      if (presenter.isOpen()) presenter.close();
-      else presenter.open(0);
+      if (!presenter.isOpen()) {
+        event.preventDefault();
+        presenter.open(0);
+      }
       return;
     }
     if (!presenter.isOpen()) return;
